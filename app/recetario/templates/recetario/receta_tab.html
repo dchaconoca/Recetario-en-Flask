@@ -1,0 +1,75 @@
+        <!-- Tabs navs -->
+        <ul class="nav nav-tabs" id="tab-detalle-receta">
+            <li class="nav-item">
+                <a class="nav-link active" id="tab-detalle-receta-1" data-toggle="tab" href="#tab-ingredientes">Ingredientes</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="tab-detalle-receta-2" data-toggle="tab" href="#tab-preparacion">Preparación</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="tab-detalle-receta-3" data-toggle="tab" href="#tab-costos">Costos y precios</a>
+            </li>
+        </ul>
+        <!-- Tabs navs -->
+  
+        <!-- Tabs content -->
+        <div class="tab-content mt-3" id="tab-detalle-receta-content">
+            <div class="tab-pane container active show mt-3" id="tab-ingredientes">
+                <table class="table table-sm table-bordered table-responsive-md table-striped">
+                    <thead>
+                        <tr>
+                            <th class="col-sm-4">Ingrediente</th>
+                            <th class="col-sm-3">Cantidad</th>
+                            <th class="col-sm-3">Unidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in range(10) %}
+                            <tr>
+                                <td>
+                                    <select class="form-control custom-select-sm" id="categoria_id" name="categoria_id" required>
+                                        {% for categoria in categorias  %}
+                                            <option value="{{ categoria.id }}" {% if categoria.id==receta.categoria_id  %}selected{% endif %}>
+                                            {{ categoria.nombre }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="numeric" step="0.01" class="form-control form-control-sm" id="cantidad{{ i }}" name="cantidad{{ i }}">
+                                </td>
+                                <td>
+                                    <select class="form-control custom-select-sm" id="categoria_id" name="categoria_id" required>
+                                        {% for categoria in categorias  %}
+                                            <option value="{{ categoria.id }}" {% if categoria.id==receta.categoria_id  %}selected{% endif %}>
+                                            {{ categoria.nombre }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                            </tr>
+                        {% endfor %}     
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane container mt-3" id="tab-preparacion">
+                <div class="form-group">
+                    <label for="descripcion" class="col-sm-2 col-form-label">Preparación</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" rows="5" id="descripcion" name="descripcion">                        
+                            {% if accion != "Crear" %} 
+                                {{ receta.descripcion }} 
+                            {% endif %}                        
+                        </textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane container mt-3" id="tab-costos">
+                <div class="form-group row">
+                    <label for="precio_venta" class="col-sm-2 col-form-label">Precio de Venta</label>
+                    <div class="col-sm-5">
+                        <input type="numeric" step="0.01" class="form-control" id="precio_venta" name="precio_venta"
+                        value={% if accion != "Crear" %} "{{ receta.precio_venta }}" {% endif %} >
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Tabs content -->

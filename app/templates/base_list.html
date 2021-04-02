@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block css %}
+
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">  
+    <link href="{{ url_for('static', filename='css/lista.css') }}" rel="stylesheet">
+
+{% endblock css %} 
+
+
+{% block content %}
+
+    <div class="table-responsive">
+        <div class="table-wrapper">
+            <table class="table table-striped table-hover table-bordered">
+                <thead>
+                    {% block table_head %}
+                    {% endblock table_head %}
+                </thead>
+                <tbody>
+                    {% block table_body %}
+                    {% endblock table_body %}
+                </tbody>
+            </table>
+        </div>
+    </div>  
+
+    {% block paginacion %}
+
+    {% endblock  %}
+
+    {% block others %}
+
+    {% endblock  %}
+
+     {% block js %}
+      <script src="https://kit.fontawesome.com/5392913073.js" crossorigin="anonymous"></script>
+    {% endblock js %}
+
+{% endblock  %}

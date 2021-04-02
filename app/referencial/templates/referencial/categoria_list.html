@@ -1,0 +1,51 @@
+{% extends "base_list.html" %}
+
+{% block title %}
+  Lista de Categorias {{ super() }}
+{% endblock  %}
+
+{% block page_title %}
+
+  <h1 class="text-primary">Lista de Categorias</h1>
+
+{% endblock %}
+
+
+    {% block table_head %}
+      <tr>
+          <th>Nombre<i class="fa fa-sort" aria-hidden="true"></i></th>
+          <th>Descripción</th>
+          <th>Acciones</th>
+      </tr>
+    {% endblock table_head %}
+
+    {% block table_body %}
+
+       {% for categoria in categorias %}
+          <tr>
+             <td>
+                <a href="{{ url_for('referencial.ConsultarCategoria', id=categoria.id) }}">
+                {{ categoria.nombre }}</a>
+             </td>
+             <td>
+               <p>{{ categoria.descripcion }}</p>
+             </td>
+             <td>
+               <a href="{{ url_for('referencial.ConsultarCategoria', id=categoria.id) }}" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
+               <a href="{{ url_for('referencial.EditarCategoria', id=categoria.id) }}" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+               <a href="{{ url_for('referencial.EliminarCategoria', id=categoria.id) }}" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+             </td>
+           </tr>
+      {% endfor %}   
+    {% endblock table_body %}
+
+    <footer>
+      {% block others %}
+        <div class="col-sm-4">
+          <a class="btn btn-primary" href="{{ url_for('referencial.CrearCategoria') }}" >Nuevo</a>
+        </div>
+      {% endblock others %}
+    </footer>
+
+   
+

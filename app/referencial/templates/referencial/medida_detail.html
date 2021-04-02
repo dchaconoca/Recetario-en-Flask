@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {{ accion }} Unidad de Medida {{ super() }}
+{% endblock  %}
+
+{% block page_title %}
+
+  <h1 class="text-primary">{{ accion }} Unidad de Medida</h1>
+
+{% endblock %}
+
+{% block content %}
+
+    {% if accion == "Consultar" %}
+        <form method="GET"> 
+        <fieldset disabled>
+    {% elif accion == "Crear" %}
+        <form action="{{ url_for('referencial.CrearMedida') }}" method="POST"> 
+        <fieldset enabled>
+    {% else %}
+        <form action="{{ url_for('referencial.EditarMedida', id=medida.id) }}" method="POST"> 
+        <fieldset enabled>
+    {% endif %}
+            <div class="form-group row">
+                <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="nombre" name="nombre" maxlength=50
+                    value={% if accion == "Crear" %} "" {% else %} "{{ medida.nombre }}" {% endif %} required>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="descripcion" class="col-sm-2 col-form-label">Proporción</label>
+                <div class="col-sm-10">
+                    <input type="number" class="form-control" id="proporcion" name="proporcion" 
+                    value={% if accion == "Crear" %} "" {% else %} "{{ medida.proporcion }}" {% endif %} required>
+                </div>
+            </div>
+        </fieldset>
+
+        <footer>
+            <div class="form-group row">
+                <div class="col-sm-8 offset-sm-2">
+                    <a class="btn btn-primary" href="{{ url_for('referencial.ListaMedidas') }}" >Volver a la lista</a>
+                </div>
+
+                {% if accion != "Consultar"  %}
+                    <button type="Submit" class="btn btn-primary">Validar</button>
+                {% endif %}           
+            </div>
+        </footer>
+
+    </form>
+       
+{% endblock %}
+
+    
+      
+   

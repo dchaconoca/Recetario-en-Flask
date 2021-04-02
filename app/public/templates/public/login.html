@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block css %}
+{% endblock css %} 
+
+{% block title %}
+Login {{ super() }}
+{% endblock%}
+
+{% block page_title %}
+
+  <h1 class="text-primary">Registro de usuario</h1>
+
+{% endblock %}
+
+
+{% block content %}
+
+  <form action="" method="POST" novalidate>
+        {{ form.hidden_tag() }}
+        <div class="form-group row">
+            <label for="nombre" class="col-sm-2 col-form-label">{{ form.nombre.label }}</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="nombre" name="nombre" 
+                value={% if form.nombre.data != None %} {{ form.nombre.data }} {% else %} "" {% endif %} >
+                <br>
+                 {% for error in form.nombre.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="email" class="col-sm-2 col-form-label">{{ form.email.label }}</label>
+            <div class="col-sm-10">
+                <input type="email" class="form-control" id="email" name="email" 
+                value={% if form.email.data != None %} {{ form.email.data }} {% else %} "" {% endif %}>
+                <br>
+                 {% for error in form.email.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="form-group row">
+
+            <label for="pwd" class="col-sm-2 col-form-label">{{ form.pwd.label }}</label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" id="pwd" name="pwd" 
+                value={% if form.pwd.data != None %} {{ form.pwd.data }} {% else %} "" {% endif %}>
+                <br>
+                 {% for error in form.pwd.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <button type="Submit" class="btn btn-primary">Registrarse
+            <!-- <a href="{{ url_for('registro') }}">Registrarse</a> -->
+        </button>
+    </form>
+
+{% endblock%}

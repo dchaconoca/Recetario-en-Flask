@@ -1,0 +1,45 @@
+{% extends "base_list.html" %}
+
+{% block title %}
+  Lista de Recetas {{ super() }}
+{% endblock  %}
+
+{% block page_title %}
+
+  <h1 class="text-primary">Lista de Recetas</h1>
+
+{% endblock %}
+
+
+    {% block table_head %}
+      <tr>
+          <th>Título<i class="fa fa-sort" aria-hidden="true"></i></th>
+          <th>Acciones</th>
+      </tr>
+    {% endblock table_head %}
+
+    {% block table_body %}
+
+       {% for receta in recetas %}
+          <tr>
+             <td>
+                <a href="{{ url_for('recetario.ConsultarReceta', id=receta.id) }}">
+                {{ receta.titulo }}</a>
+             </td>
+             <td>
+               <a href="{{ url_for('recetario.ConsultarReceta', id=receta.id) }}" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
+               <a href="{{ url_for('recetario.EditarReceta', id=receta.id) }}" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+               <a href="{{ url_for('recetario.EliminarReceta', id=receta.id) }}" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+             </td>
+           </tr>
+      {% endfor %}   
+    {% endblock table_body %}
+
+    {% block others %}
+      <div class="col-sm-4">
+        <a class="btn btn-primary" href="{{ url_for('recetario.CrearReceta') }}" >Nuevo</a>
+      </div>
+    {% endblock  %}
+
+   
+

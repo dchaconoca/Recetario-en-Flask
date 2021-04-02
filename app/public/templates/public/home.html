@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Home {{ super() }}
+{% endblock  %}
+
+{% block page_title %}
+
+  <h2 class="text-primary">Bienvenidos al Recetario de Cocina</h2>
+
+{% endblock %}
+
+{% block content %}
+    <p>
+        En esta aplicación es un ejercicio de utilización del framework <mark>Flask</mark>.
+    </p>
+
+    <p>
+      Permite la gestión de recetas de cocina y consta de 2 partes:
+    </p>
+
+    <ol>
+      <li> 
+        <strong>Referencial: </strong> Permite administrar las <strong>Categorías</strong> de recetas
+        y las <strong>Unidades de Medidas</strong> de los ingredientes.
+      </li>
+
+      <li>
+        <strong>Recetario: </strong> Permite administrar las <strong>Recetas</strong> y los <strong>Ingredientes</strong>.      </li>
+    </ol>
+
+    <p>
+      Haz <mark>Click</mark> en la opción que desees del menú de la izquierda.
+    </p>
+       
+{% endblock %}
+
+    
+      
+   
