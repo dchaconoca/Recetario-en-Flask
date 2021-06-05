@@ -54,8 +54,9 @@ class Categoria(db.Model):
         return self.query.get(id)
 
     # Devuelve la lista de todas las categorias
-    def listar(self):
-        return self.query.order_by(Categoria.nombre).all()
+    @staticmethod
+    def listar():
+        return Categoria.query.order_by(Categoria.nombre).all()
 
 # Tabla de Unidades de Medida
 # Utilizada en los ingredientes para especificar el precio según su unidad de medida
@@ -99,7 +100,8 @@ class Medida(db.Model):
         return self.query.get(id)
 
     # Devuelve la lista de todas las categorias
-    def listar(self):
-        return self.query.order_by(Medida.nombre).all()
+    @staticmethod
+    def listar():
+        return Medida.query.order_by(Medida.nombre).all()
 
 

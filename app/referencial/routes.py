@@ -23,8 +23,7 @@ from .models import Categoria, Medida
 # Lista de todas las categorias de recetas
 @referencial_bp.route('/referencial/lista_categorias')
 def ListaCategorias():
-    categoria = Categoria()
-    categorias = categoria.listar()
+    categorias = Categoria.listar()
     return render_template('/referencial/categoria_list.html', categorias = categorias)
 
 # Consulta una categoria de recetas dada
@@ -93,8 +92,7 @@ def EliminarCategoria(id):
 # Lista de todas las unidades de medida
 @referencial_bp.route('/referencial/lista_medidas')
 def ListaMedidas():
-    medida = Medida()
-    medidas = medida.listar()
+    medidas = Medida.listar()
     return render_template('/referencial/medida_list.html', medidas = medidas)
 
 # Consulta una unidad de medida dada

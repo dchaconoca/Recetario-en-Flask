@@ -1,5 +1,5 @@
 #########################################################
-# VISTAS DEL BLUEPRINT PUBLIC
+# VISTAS DEL BLUEPRINT RECETARIO
 #########################################################
 
 from flask import Flask, redirect, url_for, render_template, flash
@@ -20,8 +20,7 @@ from app.referencial.models import Medida, Categoria
 # Lista de todos los ingredientes
 @recetario_bp.route('/recetario/lista_ingredientes')
 def ListaIngredientes():
-    ingrediente = Ingrediente()
-    ingredientes = ingrediente.listar()
+    ingredientes = Ingrediente.listar()
     return render_template('/recetario/ingrediente_list.html', ingredientes = ingredientes)
 
 # Consulta un ingrediente dado
@@ -32,8 +31,7 @@ def ConsultarIngrediente(id):
     ingrediente = Ingrediente()
     unIngrediente = ingrediente.buscar(id)
 
-    medida = Medida()
-    medidas = medida.listar()
+    medidas = Medida.listar()
 
     return render_template('/recetario/ingrediente_detail.html', ingrediente=unIngrediente, medidas=medidas, accion=accion)
 
@@ -44,8 +42,7 @@ def CrearIngrediente():
     accion = "Crear"
     ingrediente = Ingrediente()
 
-    medida = Medida()
-    medidas = medida.listar()
+    medidas = Medida.listar()
 
     if request.method == 'POST':
         ingrediente.nombre = request.form['nombre']
@@ -69,8 +66,7 @@ def EditarIngrediente(id):
     ingrediente = Ingrediente()
     unIngrediente = ingrediente.buscar(id)
 
-    medida = Medida()
-    medidas = medida.listar()
+    medidas = Medida.listar()
 
     if request.method == 'POST':
         ingrediente.id = id
@@ -106,8 +102,7 @@ def EliminarIngrediente(id):
 # Lista de todas las recetas
 @recetario_bp.route('/recetario/lista_recetas')
 def ListaRecetas():
-    receta = Receta()
-    recetas = receta.listar()
+    recetas = Receta.listar()
     return render_template('/recetario/receta_list.html', recetas = recetas)
 
 # Consulta una receta dada
@@ -118,8 +113,11 @@ def ConsultarReceta(id):
     receta = Receta()
     unaReceta = receta.buscar(id)
 
-    categoria = Categoria()
-    categorias = categoria.listar()
+    categorias = Categoria.listar()
+
+    medidas = Medida.listar()
+
+    ingredentes = Ingrediente.listar()
 
     return render_template('/recetario/receta_detail.html', receta=unaReceta, categorias=categorias, accion=accion)
 
@@ -130,8 +128,7 @@ def CrearReceta():
     accion = "Crear"
     receta = Receta()
 
-    categoria = Categoria()
-    categorias = categoria.listar()
+    categorias = Categoria.listar()
 
     if request.method == 'POST':
         receta.titulo = request.form['titulo']
@@ -155,8 +152,7 @@ def EditarReceta(id):
     receta = Receta()
     unaReceta = receta.buscar(id)
 
-    categoria = Categoria()
-    categorias = categoria.listar()
+    categorias = Categoria.listar()
 
     if request.method == 'POST':
         receta.id = id
