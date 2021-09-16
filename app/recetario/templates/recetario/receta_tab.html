@@ -1,74 +1,79 @@
 <!-- Tabs navs -->
-<ul class="nav nav-tabs" id="tab-detalle-receta">
-  <li class="nav-item">
-    <a class="nav-link active" id="tab-detalle-receta-1" data-toggle="tab" href="#tab-ingredientes">Ingredientes</a>
+<ul class="nav nav-tabs" id="tab-detalle-receta" role="tablist">
+  <li class="nav-item" role="presentation"> 
+    <a class="nav-link active" data-bs-toggle="tab" id="tab-detalle-receta-1" href="#tab-ingredientes" aria-controls="tab-detalle-receta-1" aria-selected="true">Ingredientes</a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" id="tab-detalle-receta-2" data-toggle="tab" href="#tab-preparacion">Preparación</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" id="tab-detalle-receta-3" data-toggle="tab" href="#tab-costos">Costos y precios</a>
+  <li class="nav-item" role="presentation"> 
+    <a class="nav-link" data-bs-toggle="tab"  id="tab-detalle-receta-2" href="#tab-preparacion" aria-controls="tab-detalle-receta-2" aria-selected="false">Preparación</a>
   </li>
 </ul>
 <!-- Tabs navs -->
   
 <!-- Tabs content -->
-<div class="tab-content mt-3" id="tab-detalle-receta-content">
-  <div class="tab-pane container active show mt-3" id="tab-ingredientes">
-    <table class="table table-sm table-bordered table-responsive-md table-striped">
-      <thead>
-        <tr>
-            <th class="col-sm-4">Ingrediente</th>
-            <th class="col-sm-3">Cantidad</th>
-            <th class="col-sm-3">Unidad</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for i in range(10) %}
-          <tr>
-            <td>
-              <select class="form-control custom-select-sm" id="categoria_id" name="categoria_id" required>
-                {% for categoria in categorias  %}
-                  <option value="{{ categoria.id }}" {% if categoria.id==receta.categoria_id  %}selected{% endif %}>
-                  {{ categoria.nombre }}</option>
-                {% endfor %}
-              </select>
-            </td>
-            <td>
-              <input type="numeric" step="0.01" class="form-control form-control-sm" id="cantidad{{ i }}" name="cantidad{{ i }}">
-            </td>
-            <td>
-              <select class="form-control custom-select-sm" id="categoria_id" name="categoria_id" required>
-                {% for categoria in categorias  %}
-                  <option value="{{ categoria.id }}" {% if categoria.id==receta.categoria_id  %}selected{% endif %}>
-                  {{ categoria.nombre }}</option>
-                {% endfor %}
-              </select>
-            </td>
-          </tr>
-        {% endfor %}     
-      </tbody>
-    </table>
-  </div>
-  <div class="tab-pane container mt-3" id="tab-preparacion">
-    <div class="form-group">
-      <label for="descripcion" class="col-sm-2 col-form-label">Preparación</label>
-      <div class="col-sm-10">
-        <textarea class="form-control" rows="5" id="descripcion" name="descripcion">                        
-          {% if accion != "Crear" %} 
-              {{ receta.descripcion }} 
-          {% endif %}                        
-        </textarea>
+<div class="tab-content" id="tab-detalle-receta-content">
+  <div class="tab-pane fade show active" id="tab-ingredientes" role="tabpanel" aria-labelledby="tab-detalle-receta-1-tab">
+    <!-- {% if accion == "Editar" %}
+      <form action="{{ url_for('recetario.crear_ingrediente_receta', id_rec=receta.id) }}" method="POST" novalidate> 
+        <fieldset enabled>
+    {% elif accion == "Editar_Ing" %}
+      <form action="{{ url_for('recetario.editar_ingrediente_receta', id_rec=receta.id, id_ing=ing_id) }}" method="POST" novalidate> 
+        <fieldset enabled>
+    {% endif %}
+    {% if accion != "Consultar"  %}
+        <div id="nuevo" class="row align-content-center">
+          <select class="form-control custom-select-sm col-sm-3 m-3" id="ing_id" name="ing_id" required>
+            {% for ing in lista_ingredientes  %}
+              <option value="{{ ing.id }}">{{ ing.nombre }}</option>
+            {% endfor %}
+          </select>
+          <input type="numeric" step="0.01" class="form-control form-control-sm col-sm-3 m-3" id="cantidad" name="cantidad">
+          <select class="form-control custom-select-sm col-sm-3 m-3" id="medida_id" name="medida_id" required>
+            {% for medida in medidas  %}
+              <option value="{{ medida.id }}">{{ medida.nombre }}</option>
+            {% endfor %}
+          </select>
+          <button type="Submit" class="btn btn-primary">Validar</button>
+        </div>
+      </form>
+    {% endif %}  -->
+      
+    
+    <div class="table-responsive">
+      <div class="table-wrapper">
+        <table class="table table-striped table-hover table-bordered">
+          <thead>
+            <th>Ingrediente</th>
+            <th>Cantidad</th>
+            <th>Unidad</th>
+            <!-- <th>Acciones</th> -->
+          </thead>
+          <tbody>
+            {% for ingrediente in ingredientes %}
+              <tr>
+                <td>
+                  {{ ingrediente.nombre }}
+                </td>
+                <td>
+                  {{ ingrediente.precio }}
+                </td>
+                <td>
+                  {{ ingrediente.medida.nombre}}
+                </td>
+              </tr>
+            {% endfor %}  
+          </tbody>
+        </table>
       </div>
-    </div>
+    </div> 
+
   </div>
-  <div class="tab-pane container mt-3" id="tab-costos">
-    <div class="form-group row">
-      <label for="precio_venta" class="col-sm-2 col-form-label">Precio de Venta</label>
-      <div class="col-sm-5">
-        <input type="numeric" step="0.01" class="form-control" id="precio_venta" name="precio_venta"
-        value={% if accion != "Crear" %} "{{ receta.precio_venta }}" {% endif %} >
-      </div>
+
+  <div class="tab-pane fade" id="tab-preparacion" role="tabpanel" aria-labelledby="tab-detalle-receta-2-tab">
+    <div class="form-outline">
+      <label for="descripcion" class="form-label">Preparación</label>
+      <textarea class="form-control" rows="10"  id="descripcion" name="descripcion" {% if accion == "Consultar" %} disabled {% endif %}>  
+        {{ receta.descripcion }}                                       
+      </textarea>
     </div>
   </div>
 </div>

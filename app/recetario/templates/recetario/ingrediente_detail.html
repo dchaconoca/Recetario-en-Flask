@@ -16,20 +16,20 @@
         <form method="GET"> 
         <fieldset disabled>
     {% elif accion == "Crear" %}
-        <form action="{{ url_for('recetario.CrearIngrediente') }}" method="POST" novalidate> 
+        <form action="{{ url_for('recetario.crear_ingrediente') }}" method="POST" novalidate> 
         <fieldset enabled>
     {% else %}
-        <form action="{{ url_for('recetario.EditarIngrediente', id=ingrediente.id) }}" method="POST" novalidate> 
+        <form action="{{ url_for('recetario.editar_ingrediente', id=ingrediente.id) }}" method="POST" novalidate> 
         <fieldset enabled>
     {% endif %}
-            <div class="form-group row">
+            <div class="row my-2">
                 <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" id="nombre" name="nombre" maxlength=50
                     value={% if accion == "Crear" %} "" {% else %} "{{ ingrediente.nombre }}" {% endif %} required>
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="row my-2">
                 <label for="descripcion" class="col-sm-2 col-form-label">Descripción</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" id="descripcion" name="descripcion" maxlength=100
@@ -37,34 +37,39 @@
                 </div>
             </div>
 
-            <div class="form-group row">
-                <label for="precio" class="col-sm-2 col-form-label">Precio</label>
-                <div class="col-sm-5">
-                    <input type="numeric" step="0.01" class="form-control" id="precio" name="precio" 
-                    value={% if accion == "Crear" %} "" {% else %} "{{ ingrediente.precio }}" {% endif %} >
+            <div class="row my-2">
+                <div class="col-sm-6">
+                    <label for="precio" class="col-form-label">Precio</label>
+                    <div>
+                        <input type="numeric" step="0.01" class="form-control" id="precio" name="precio" 
+                        value={% if accion == "Crear" %} "" {% else %} "{{ ingrediente.precio }}" {% endif %} >
+                    </div>
                 </div>
-
-                <label for="medida_id" class="col-sm-2 col-form-label">Medida</label>
-                <select class="mdb-select md-form colorful-select dropdown-primary col-sm-2 form-control" id="medida_id" name="medida_id" required>
-                    {% for medida in medidas  %}
-                        <option value="{{ medida.id }}" {% if medida.id==ingrediente.medida_id  %}selected{% endif %}>
-                        {{ medida.nombre }}</option>
-                    {% endfor %}
-                </select>
+                <div class="col-sm-6">
+                    <label for="medida_id" class="col-form-label">Medida</label>
+                    <select class="form-select" id="medida_id" name="medida_id" required>
+                        {% for medida in medidas  %}
+                            <option value="{{ medida.id }}" {% if medida.id==ingrediente.medida_id  %}selected{% endif %}>
+                            {{ medida.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>                
             </div>
         
         </fieldset>
 
-        <div class="form-group row">
-            <div class="col-sm-8 offset-sm-2">
-                <a class="btn btn-primary" href="{{ url_for('recetario.ListaIngredientes') }}" >Volver a la lista</a>
+        <footer>
+            <div class="d-flex flex-row justify-content-between">
+              <div class="p-2">
+                <a class="btn btn-primary" href="{{ url_for('recetario.listar_ingredientes') }}" >Volver a la lista</a>
+              </div>    
+              {% if accion != "Consultar"  %}
+                <div class="p-2">
+                  <button type="Submit" class="btn btn-primary">Validar</button>
+                </div>
+              {% endif %}        
             </div>
-
-            {% if accion != "Consultar"  %}
-                <button type="Submit" class="btn btn-primary">Validar</button>
-            {% endif %}           
-            
-        </div>
+          </footer>
 
     </form>
        

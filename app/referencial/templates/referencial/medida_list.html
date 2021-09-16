@@ -23,13 +23,13 @@
        {% for medida in medidas %}
           <tr>
              <td>
-                <a href="{{ url_for('referencial.ConsultarMedida', id=medida.id) }}">
+                <a href="{{ url_for('referencial.Consultar_Medida', id=medida.id) }}">
                 {{ medida.nombre }}</a>
              </td>
              <td>
-               <a href="{{ url_for('referencial.ConsultarMedida', id=medida.id) }}" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-               <a href="{{ url_for('referencial.EditarMedida', id=medida.id) }}" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-               <a href="{{ url_for('referencial.EliminarMedida', id=medida.id) }}" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+               <a href="{{ url_for('referencial.Consultar_Medida', id=medida.id) }}" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
+               <a href="{{ url_for('referencial.Editar_Medida', id=medida.id) }}" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+               <a href="{{ url_for('referencial.Eliminar_Medida', id=medida.id) }}" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
              </td>
            </tr>
       {% endfor %}   
@@ -37,7 +37,7 @@
 
     {% block others %}
       <div class="col-sm-4">
-        <a class="btn btn-primary" href="{{ url_for('referencial.CrearMedida') }}" >Nuevo</a>
+        <a class="btn btn-primary" href="{{ url_for('referencial.Crear_Medida') }}" >Nuevo</a>
       </div>
     {% endblock  %}
 

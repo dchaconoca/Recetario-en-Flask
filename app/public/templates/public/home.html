@@ -12,11 +12,19 @@
 
 {% block content %}
     <p>
-        En esta aplicación es un ejercicio de utilización del framework <mark>Flask</mark>.
+      Cuando fui a abrir mi restaurant, como todo el mundo que comienza un negocio, me preguntaba cuánto cobrar.
     </p>
 
     <p>
-      Permite la gestión de recetas de cocina y consta de 2 partes:
+      Para eso, me hice en esa época (2009) una pequeña aplicación con Access, donde administraba ingredientes, precios, recetas... Y así calculaba costos y precios.
+    </p>
+
+    <p>
+      Ahora construyo de nuevo la aplicación como un ejercicio de Python.
+    </p>
+
+    <p>
+      Esta aplicación permite la gestión de recetas de cocina y consta de 2 partes:
     </p>
 
     <ol>
@@ -26,8 +34,19 @@
       </li>
 
       <li>
-        <strong>Recetario: </strong> Permite administrar las <strong>Recetas</strong> y los <strong>Ingredientes</strong>.      </li>
+        <strong>Recetario: </strong> Permite administrar las <strong>Recetas</strong> y los <strong>Ingredientes</strong>.  
+        También calcula de manera automática el precio de la receta en función de los ingredientes.    
+      </li>
     </ol>
+
+    <p>
+      El proyecto utiliza: <strong>Flask, MySQL, SQLAlchemy, Jinja, Bootstrap</strong>.
+      También me ha permitido estudiar los <strong>ORM</strong> y el modelo <strong>MVC</strong>.
+    </p>
+
+    <div class="d-flex justify-content-center">
+      <img src="{{ url_for('static', filename='/img/modelo-er.png') }}" alt="Modelo Entidad-Relación de la aplicación">
+    </div>
 
     <p>
       Haz <mark>Click</mark> en la opción que desees del menú de la izquierda.

@@ -10,36 +10,66 @@
 
 {% endblock %}
 
+{% block select %}
 
-    {% block table_head %}
-      <tr>
-          <th>Título<i class="fa fa-sort" aria-hidden="true"></i></th>
-          <th>Acciones</th>
-      </tr>
-    {% endblock table_head %}
-
-    {% block table_body %}
-
-       {% for receta in recetas %}
-          <tr>
-             <td>
-                <a href="{{ url_for('recetario.ConsultarReceta', id=receta.id) }}">
-                {{ receta.titulo }}</a>
-             </td>
-             <td>
-               <a href="{{ url_for('recetario.ConsultarReceta', id=receta.id) }}" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-               <a href="{{ url_for('recetario.EditarReceta', id=receta.id) }}" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-               <a href="{{ url_for('recetario.EliminarReceta', id=receta.id) }}" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-             </td>
-           </tr>
-      {% endfor %}   
-    {% endblock table_body %}
-
-    {% block others %}
-      <div class="col-sm-4">
-        <a class="btn btn-primary" href="{{ url_for('recetario.CrearReceta') }}" >Nuevo</a>
+  <form method="post" action="{{ url_for('recetario.listar_recetas') }}">
+    <div class="d-flex flex-row justify-content-between">
+      <h6 class="p-3">Filtrar recetas</h6>
+      <div class="p-2">
+        <select class="form-select col-sm-2" aria-label="Default select example" id="categoria_id" name="categoria_id">
+          <option value="-1" selected>-- Todas Categorías --</option>
+          {% for categoria in categorias  %} 
+            <option value="{{ categoria.id }}" {% if  categoria.id==id_cat  %}selected{% endif %}>
+            {{ categoria.nombre }}</option>
+          {% endfor %}
+        </select>
       </div>
-    {% endblock  %}
+      <div class="p-2">
+        <select class="form-select" id="ingrediente_id" name="ingrediente_id">
+          <option value="-1" selected>-- Todos Ingredientes --</option>
+          {% for ingrediente in ingredientes  %}
+              <option value="{{ ingrediente.id }}" {% if ingrediente.id==id_ing  %}selected{% endif %}>
+              {{ ingrediente.nombre }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="p-2">
+        <button type="submit" class="btn btn-primary">Buscar</button>
+      </div>      
+    </div>   
+  </form>
 
-   
+{% endblock select %}
+
+{% block table_head %}
+  <tr>
+    <th>Título</th>
+    <th>Acciones</th>
+  </tr>
+{% endblock table_head %}
+
+{% block table_body %}
+
+  {% for receta in recetas %}
+    <tr>
+      <td>
+        <a href="{{ url_for('recetario.consultar_receta', id=receta.id) }}">
+        {{ receta.titulo }}</a>
+      </td>
+      <td>
+        <a href="{{ url_for('recetario.consultar_receta', id=receta.id) }}" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
+        <a href="{{ url_for('recetario.editar_receta', id=receta.id) }}" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+        <a href="{{ url_for('recetario.eliminar_receta', id=receta.id) }}" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+      </td>
+    </tr>
+  {% endfor %}   
+{% endblock table_body %}
+
+{% block others %}
+  <div class="col-sm-4">
+    <a class="btn btn-primary" href="{{ url_for('recetario.crear_receta') }}" >Nuevo</a>
+  </div>
+{% endblock  %}
+
+  
 

@@ -22,14 +22,14 @@ from .models import Categoria, Medida
 
 # Lista de todas las categorias de recetas
 @referencial_bp.route('/referencial/lista_categorias')
-def ListaCategorias():
+def Listar_Categorias():
     categorias = Categoria.listar()
     return render_template('/referencial/categoria_list.html', categorias = categorias)
 
 # Consulta una categoria de recetas dada
 # El parámetro acción permite "adaptar" el template
 @referencial_bp.route('/referencial/consultar_categoria/<id>')
-def ConsultarCategoria(id):
+def Consultar_Categoria(id):
     accion = "Consultar"
     categoria = Categoria()
     unaCategoria = categoria.buscar(id)
@@ -38,7 +38,7 @@ def ConsultarCategoria(id):
 # Crea una categoria de recetas 
 # El parámetro acción permite "adaptar" el template
 @referencial_bp.route('/referencial/crear_categoria', methods=["GET", "POST"])
-def CrearCategoria():
+def Crear_Categoria():
     accion = "Crear"
     categoria = Categoria()
     if request.method == 'POST':
@@ -49,14 +49,14 @@ def CrearCategoria():
             categoria.guardar()
             mensaje="Categoria " + categoria.nombre + " creada satisfactoriamente" 
             flash(mensaje)
-            return redirect(url_for('referencial.ListaCategorias'))
+            return redirect(url_for('referencial.Listar_Categorias'))
               
     return render_template('/referencial/categoria_detail.html', categoria=categoria, accion=accion)
 
 # Edita una categoria de recetas dada
 # El parámetro acción permite "adaptar" el template
 @referencial_bp.route('/referencial/editar_categoria/<int:id>',  methods=["GET", "POST"])
-def EditarCategoria(id):
+def Editar_Categoria(id):
     accion = "Editar"
     categoria = Categoria()
     unaCategoria = categoria.buscar(id)
@@ -70,19 +70,19 @@ def EditarCategoria(id):
             categoria.guardar()
             mensaje="Categoria " + categoria.nombre + " modificada satisfactoriamente" 
             flash(mensaje)
-            return redirect(url_for('referencial.ListaCategorias'))
+            return redirect(url_for('referencial.Listar_Categorias'))
 
     return render_template('/referencial/categoria_detail.html', categoria=unaCategoria, accion=accion)
 
 
 # Elimina una categoria de recetas dada
 @referencial_bp.route('/referencial/eliminar_categoria/<int:id>')
-def EliminarCategoria(id):
+def Eliminar_Categoria(id):
     categoria = Categoria()
     if categoria.borrar(id):
         flash('Categoria eliminada satisfactoriamente')
     
-    return redirect(url_for('referencial.ListaCategorias'))
+    return redirect(url_for('referencial.Listar_Categorias'))
 
 
 #########################################################
@@ -91,14 +91,14 @@ def EliminarCategoria(id):
 
 # Lista de todas las unidades de medida
 @referencial_bp.route('/referencial/lista_medidas')
-def ListaMedidas():
+def Listar_Medidas():
     medidas = Medida.listar()
     return render_template('/referencial/medida_list.html', medidas = medidas)
 
 # Consulta una unidad de medida dada
 # El parámetro acción permite "adaptar" el template
 @referencial_bp.route('/referencial/consultar_medida/<id>')
-def ConsultarMedida(id):
+def Consultar_Medida(id):
     accion = "Consultar"
     medida = Medida()
     unaMedida = medida.buscar(id)
@@ -107,7 +107,7 @@ def ConsultarMedida(id):
 # Crea una unidad de medida
 # El parámetro acción permite "adaptar" el template
 @referencial_bp.route('/referencial/crear_medida', methods=["GET", "POST"])
-def CrearMedida():
+def Crear_Medida():
     accion = "Crear"
     medida = Medida()
     if request.method == 'POST':
@@ -118,14 +118,14 @@ def CrearMedida():
             medida.guardar()
             mensaje="Unidad de medida " + medida.nombre + " creada satisfactoriamente" 
             flash(mensaje)
-            return redirect(url_for('referencial.ListaMedidas'))
+            return redirect(url_for('referencial.Listar_Medidas'))
               
     return render_template('/referencial/medida_detail.html', medida=medida, accion=accion)
 
 # Edita una unidad de medida
 # El parámetro acción permite "adaptar" el template
 @referencial_bp.route('/referencial/editar_medida/<int:id>',  methods=["GET", "POST"])
-def EditarMedida(id):
+def Editar_Medida(id):
     accion = "Editar"
     medida = Medida()
     unaMedida = medida.buscar(id)
@@ -139,19 +139,19 @@ def EditarMedida(id):
             medida.guardar()
             mensaje="Unidad de medida " + medida.nombre + " modificada satisfactoriamente" 
             flash(mensaje)
-            return redirect(url_for('referencial.ListaMedidas'))
+            return redirect(url_for('referencial.Listar_Medidas'))
 
     return render_template('/referencial/medida_detail.html', medida=unaMedida, accion=accion)
 
 
 # Elimina una unidad de medida
 @referencial_bp.route('/referencial/eliminar_medida/<int:id>')
-def EliminarMedida(id):
+def Eliminar_Medida(id):
     medida = Medida()
     if medida.borrar(id):
         flash('Unidad de mdida eliminada satisfactoriamente')
     
-    return redirect(url_for('referencial.ListaMedidas'))
+    return redirect(url_for('referencial.Listar_Medidas'))
 
 
 

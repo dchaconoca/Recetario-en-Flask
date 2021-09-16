@@ -24,16 +24,16 @@
        {% for categoria in categorias %}
           <tr>
              <td>
-                <a href="{{ url_for('referencial.ConsultarCategoria', id=categoria.id) }}">
+                <a href="{{ url_for('referencial.Consultar_Categoria', id=categoria.id) }}">
                 {{ categoria.nombre }}</a>
              </td>
              <td>
                <p>{{ categoria.descripcion }}</p>
              </td>
              <td>
-               <a href="{{ url_for('referencial.ConsultarCategoria', id=categoria.id) }}" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-               <a href="{{ url_for('referencial.EditarCategoria', id=categoria.id) }}" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-               <a href="{{ url_for('referencial.EliminarCategoria', id=categoria.id) }}" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+               <a href="{{ url_for('referencial.Consultar_Categoria', id=categoria.id) }}" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
+               <a href="{{ url_for('referencial.Editar_Categoria', id=categoria.id) }}" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+               <a href="{{ url_for('referencial.Eliminar_Categoria', id=categoria.id) }}" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
              </td>
            </tr>
       {% endfor %}   
@@ -42,7 +42,7 @@
     <footer>
       {% block others %}
         <div class="col-sm-4">
-          <a class="btn btn-primary" href="{{ url_for('referencial.CrearCategoria') }}" >Nuevo</a>
+          <a class="btn btn-primary" href="{{ url_for('referencial.Crear_Categoria') }}" >Nuevo</a>
         </div>
       {% endblock others %}
     </footer>

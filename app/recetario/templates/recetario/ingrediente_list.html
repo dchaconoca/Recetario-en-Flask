@@ -23,16 +23,16 @@
        {% for ingrediente in ingredientes %}
           <tr>
              <td>
-                <a href="{{ url_for('recetario.ConsultarIngrediente', id=ingrediente.id) }}">
+                <a href="{{ url_for('recetario.consultar_ingrediente', id=ingrediente.id) }}">
                 {{ ingrediente.nombre }}</a>
              </td>
              <td>
                <p>{{ ingrediente.descripcion }}</p>
              </td>
              <td>
-               <a href="{{ url_for('recetario.ConsultarIngrediente', id=ingrediente.id) }}" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-               <a href="{{ url_for('recetario.EditarIngrediente', id=ingrediente.id) }}" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-               <a href="{{ url_for('recetario.EliminarIngrediente', id=ingrediente.id) }}" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+               <a href="{{ url_for('recetario.consultar_ingrediente', id=ingrediente.id) }}" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
+               <a href="{{ url_for('recetario.editar_ingrediente', id=ingrediente.id) }}" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+               <a href="{{ url_for('recetario.eliminar_ingrediente', id=ingrediente.id) }}" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
              </td>
            </tr>
       {% endfor %}   
@@ -40,7 +40,7 @@
 
     {% block others %}
       <div class="col-sm-4">
-        <a class="btn btn-primary" href="{{ url_for('recetario.CrearIngrediente') }}" >Nuevo</a>
+        <a class="btn btn-primary" href="{{ url_for('recetario.crear_ingrediente') }}" >Nuevo</a>
       </div>
     {% endblock  %}
 

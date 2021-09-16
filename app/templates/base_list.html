@@ -4,12 +4,15 @@
 
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">  
-    <link href="{{ url_for('static', filename='css/lista.css') }}" rel="stylesheet">
+    <!-- <link href="{{ url_for('static', filename='css/lista.css') }}" rel="stylesheet"> -->
 
 {% endblock css %} 
 
 
 {% block content %}
+
+  {% block select %}
+  {% endblock select %}
 
     <div class="table-responsive">
         <div class="table-wrapper">

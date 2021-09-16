@@ -9,7 +9,7 @@
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy import Column, Integer, String, Text
 from sqlalchemy import DateTime, Float
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 
 # Librerías Python
 from datetime import datetime
@@ -31,9 +31,11 @@ class Ingrediente(db.Model):
   precio = Column(Float, default=0, nullable=True) 
   medida_id = Column(Integer, ForeignKey('Medida.id'), nullable=False)
   medida=relationship("Medida")
-  recetas = relationship("IngredienteReceta", back_populates="ingrediente")
   created = Column(DateTime)
   updated = Column(DateTime)
+
+  # Relación
+  # recetas = relationship("IngredienteReceta", back_populates="Receta")
 
   # Devuelve el nombre
   def __str__(self):
@@ -89,9 +91,11 @@ class Receta(db.Model):
   categoria_id = Column(Integer, ForeignKey('Categoria.id'), nullable=False)
   categoria=relationship("Categoria", backref="Receta")
   precio_venta = Column(Float, default=0, nullable=True) 
-  ingredientes = relationship("IngredienteReceta", back_populates="receta")
   created = Column(DateTime)
   updated = Column(DateTime)
+
+  # Relación
+  # ingredientes = relationship("IngredienteReceta", back_populates="Ingrediente")
 
   # Devuelve el nombre
   def __str__(self):
@@ -131,6 +135,20 @@ class Receta(db.Model):
   def buscar(self, id):
     return self.query.get(id)
 
+  
+  def buscar_ingredientes(self):
+    sql = "SELECT IR.receta_id rec_id, I.id ing_id, I.nombre nombre_ing, "\
+          "IR.cantidad cantidad, IR.medida_id med_id, M.nombre nombre_med "\
+          "FROM Ingrediente I "\
+          "INNER JOIN IngredienteReceta IR "\
+          "ON I.id = IR.ingrediente_id "\
+          "INNER JOIN Medida M "\
+          "ON IR.medida_id= M.id "\
+          "WHERE IR.receta_id  = " + str(self.id)    
+        
+    return db.session.execute(sql).fetchall()
+  
+
   # Devuelve la lista de todas las recetas
   @staticmethod
   def listar():
@@ -138,8 +156,8 @@ class Receta(db.Model):
 
   # Devuelve la lista de todas las recetas de una categoria
   @staticmethod
-  def listarPorCategoria(categoria_id):
-    return Receta.query.filter_by(categoria_id=categoria_id).order_by(Receta.titulo).all()
+  def recetas_categoria(cat_id):
+    return Receta.query.filter_by(categoria_id=cat_id).order_by(Receta.titulo).all()
 
 
 # Tabla de IngredienteReceta
@@ -157,18 +175,23 @@ class IngredienteReceta(db.Model):
   medida=relationship("Medida")
   created = Column(DateTime)
   updated = Column(DateTime)
-  ingrediente=relationship("Ingrediente", back_populates="recetas")
-  receta=relationship("Receta", back_populates="ingredientes")
+  
+  # Relaciones
+  receta = relationship("Receta", back_populates="recetas")
+  ingrediente = relationship("Ingrediente", back_populates="ingredientes")
 
-  @staticmethod
-  def ingredientesReceta(rec_id):
-      return IngredienteReceta.query.filter_by(receta_id=rec_id).order_by(Ingrediente.nombre).all()
-    
+  # Hace las diversas validaciones para los ingredientes de una receta
+  def validar(self):
+    valido = False
+    if self.ingrediente_id != None and self.cantidad != None and self.medida_id != None:
+      valido = True
+    return valido
+
   # Guarda ingredientes de una receta
   def guardar(self):
 
-    existe = IngredienteReceta.query.get(receta_id=self.receta_id, ingrediente_id=self.ingrediente_id)
-
+    existe = IngredienteReceta.query.filter_by(receta_id=self.receta_id, ingrediente_id=self.ingrediente_id)
+    print(existe)
     if not existe:
       self.created=datetime.now()
       self.updated=datetime.now()
