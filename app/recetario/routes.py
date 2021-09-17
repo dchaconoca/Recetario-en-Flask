@@ -30,11 +30,11 @@ def listar_ingredientes():
 def consultar_ingrediente(id):
     accion = "Consultar"
     ingrediente = Ingrediente()
-    unIngrediente = ingrediente.buscar(id)
+    un_ingrediente = ingrediente.buscar(id)
 
     medidas = Medida.listar()
 
-    return render_template('/recetario/ingrediente_detail.html', ingrediente=unIngrediente, medidas=medidas, accion=accion)
+    return render_template('/recetario/ingrediente_detail.html', ingrediente=un_ingrediente, medidas=medidas, accion=accion)
 
 # Crea un ingrediente
 # El parámetro acción permite "adaptar" el template
@@ -65,7 +65,7 @@ def crear_ingrediente():
 def editar_ingrediente(id):
     accion = "Editar"
     ingrediente = Ingrediente()
-    unIngrediente = ingrediente.buscar(id)
+    un_ingrediente = ingrediente.buscar(id)
 
     medidas = Medida.listar()
 
@@ -82,7 +82,7 @@ def editar_ingrediente(id):
             flash(mensaje)
             return redirect(url_for('recetario.listar_ingredientes'))
 
-    return render_template('/recetario/ingrediente_detail.html', ingrediente=unIngrediente, medidas=medidas, accion=accion)
+    return render_template('/recetario/ingrediente_detail.html', ingrediente=un_ingrediente, medidas=medidas, accion=accion)
 
 
 # Elimina un ingrediente
@@ -126,16 +126,14 @@ def listar_recetas(id_cat=None, id_ing=None):
 def contexto_receta(id):
   receta = Receta()
   una_receta = receta.buscar(id)
-  # ingredientes = una_receta.ingredientes
+  ings = None
 
-  # # Esto funciona perfecto
-  # for ingrediente in ingredientes:
-  #   print(ingrediente.ingrediente_id, ingrediente.cantidad)
+  if una_receta:
+    ings = una_receta.ingredientes_receta
 
   contexto = {
     'receta': una_receta,
-    'ingredientes': una_receta.buscar_ingredientes(),
-    #'ingredientes': una_receta.ingredientes,
+    'ingredientes_receta': ings,
     'lista_ingredientes': Ingrediente.listar(),
     'medidas': Medida.listar(),
     'categorias': Categoria.listar()
@@ -173,7 +171,7 @@ def crear_receta():
             flash(mensaje)
             return redirect(url_for('recetario.listar_recetas'))
               
-    return render_template('/recetario/receta_detail.html', receta=receta, categorias=categorias, accion=accion)
+    return render_template('/recetario/receta_detail.html', accion=accion, **contexto_receta(id))
 
 # Edita una receta
 # El parámetro acción permite "adaptar" el template
@@ -251,5 +249,10 @@ def editar_ingrediente_receta(id_rec, id_ing):
 
 @recetario_bp.route('/recetario/eliminar_ingrediente_receta/<int:id_rec>/<int:id_ing>')
 def eliminar_ingrediente_receta(id_rec, id_ing):
-  pass
+  receta = Receta()
+
+  if receta.borrar_ingrediente(id_rec, id_ing):
+    flash('Ingrediente eliminado satisfactoriamente')
+  
+  return redirect(url_for('recetario.editar_receta', id=id_rec))
 

@@ -10,32 +10,37 @@
 <!-- Tabs navs -->
   
 <!-- Tabs content -->
-<div class="tab-content" id="tab-detalle-receta-content">
+<div class="tab-content mt-2" id="tab-detalle-receta-content">
   <div class="tab-pane fade show active" id="tab-ingredientes" role="tabpanel" aria-labelledby="tab-detalle-receta-1-tab">
-    <!-- {% if accion == "Editar" %}
-      <form action="{{ url_for('recetario.crear_ingrediente_receta', id_rec=receta.id) }}" method="POST" novalidate> 
-        <fieldset enabled>
-    {% elif accion == "Editar_Ing" %}
-      <form action="{{ url_for('recetario.editar_ingrediente_receta', id_rec=receta.id, id_ing=ing_id) }}" method="POST" novalidate> 
-        <fieldset enabled>
-    {% endif %}
     {% if accion != "Consultar"  %}
-        <div id="nuevo" class="row align-content-center">
-          <select class="form-control custom-select-sm col-sm-3 m-3" id="ing_id" name="ing_id" required>
-            {% for ing in lista_ingredientes  %}
-              <option value="{{ ing.id }}">{{ ing.nombre }}</option>
+      <div class="d-flex flex-row justify-content-between border m-3 p-2">
+        <div class="col-sm-4">
+          <label for="ingrediente_id" class="col-form-label">Ingredientes</label>
+          <select class="form-select" id="ingrediente_id" name="ingrediente_id">
+            {% for ingrediente in lista_ingredientes  %}
+              <option value="{{ ingrediente.id }}">{{ ingrediente.nombre }}</option>
             {% endfor %}
           </select>
-          <input type="numeric" step="0.01" class="form-control form-control-sm col-sm-3 m-3" id="cantidad" name="cantidad">
-          <select class="form-control custom-select-sm col-sm-3 m-3" id="medida_id" name="medida_id" required>
-            {% for medida in medidas  %}
-              <option value="{{ medida.id }}">{{ medida.nombre }}</option>
-            {% endfor %}
-          </select>
-          <button type="Submit" class="btn btn-primary">Validar</button>
         </div>
-      </form>
-    {% endif %}  -->
+        <div class="col-sm-2">
+          <label for="cantidad" class="col-form-label">Cantidad</label>
+          <div>
+              <input type="numeric" step="0.01" class="form-control" id="cantidad" name="cantidad">
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <label for="medida_id" class="col-form-label">Medida</label>
+          <select class="form-select" id="medida_id" name="medida_id" required>
+            {% for medida in medidas  %}
+            <option value="{{ medida.id }}">{{ medida.nombre }}</option>
+            {% endfor %}
+          </select>
+        </div> 
+        <div class="p-2 align-self-end">
+          <button type="Submit" class="btn btn-primary">Agregar</button>
+        </div>
+      </div>
+    {% endif %}
       
     
     <div class="table-responsive">
@@ -45,22 +50,32 @@
             <th>Ingrediente</th>
             <th>Cantidad</th>
             <th>Unidad</th>
-            <!-- <th>Acciones</th> -->
+            {% if accion != "Consultar"  %}
+              <th>Acciones</th>
+            {% endif %}
           </thead>
           <tbody>
-            {% for ingrediente in ingredientes %}
-              <tr>
-                <td>
-                  {{ ingrediente.nombre }}
-                </td>
-                <td>
-                  {{ ingrediente.precio }}
-                </td>
-                <td>
-                  {{ ingrediente.medida.nombre}}
-                </td>
-              </tr>
-            {% endfor %}  
+            {% if ingredientes_receta  %}
+              {% for ing_rec in ingredientes_receta %}
+                <tr>
+                  <td>
+                    {{ ing_rec.ingrediente.nombre }}
+                  </td>
+                  <td>
+                    {{ ing_rec.cantidad }}
+                  </td>
+                  <td>
+                    {{ ing_rec.medida.nombre}}
+                  </td>
+                  {% if accion != "Consultar"  %}
+                    <td>
+                      <a href="{{ url_for('recetario.editar_ingrediente_receta', id_rec=ing_rec.receta_id, id_ing=ing_rec.ingrediente_id) }}" class="edit" title="Editar" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                      <a href="{{ url_for('recetario.eliminar_ingrediente_receta', id_rec=ing_rec.receta_id, id_ing=ing_rec.ingrediente_id) }}" class="delete" title="Eliminar" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                    </td>
+                  {% endif %}
+                </tr>
+              {% endfor %}  
+            {% endif %}
           </tbody>
         </table>
       </div>
@@ -69,7 +84,7 @@
   </div>
 
   <div class="tab-pane fade" id="tab-preparacion" role="tabpanel" aria-labelledby="tab-detalle-receta-2-tab">
-    <div class="form-outline">
+    <div class="form-outline border m-3 p-2">
       <label for="descripcion" class="form-label">Preparación</label>
       <textarea class="form-control" rows="10"  id="descripcion" name="descripcion" {% if accion == "Consultar" %} disabled {% endif %}>  
         {{ receta.descripcion }}                                       

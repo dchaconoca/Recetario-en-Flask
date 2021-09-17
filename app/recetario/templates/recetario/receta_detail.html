@@ -22,42 +22,33 @@
     <form action="{{ url_for('recetario.editar_receta', id=receta.id) }}" method="POST" novalidate> 
       <fieldset enabled>
   {% endif %}
-        <div class="row mb-3">
-          <label for="nombre" class="col-sm-2 col-form-label my-2">Título</label>
-          <div class="col-sm-10 my-2">
-            <input type="text" class="form-control" id="titulo" name="titulo" maxlength=50 required
-            value={% if accion != "Crear" %} "{{ receta.titulo }}" {% endif %}>
-          </div>
-        </div>
-        <div class="row mb-3">
-          <label for="categoria_id" class="col-sm-2 col-form-label my-2">Categoría</label>
-          <div class="col-sm-4 my-2">
-            <select class="form-select" aria-label="Default select example" id="categoria_id" name="categoria_id" required>
-              {% for categoria in categorias  %}
-                  <option value="{{ categoria.id }}" {% if categoria.id==receta.categoria_id  %}selected{% endif %}>
-                  {{ categoria.nombre }}</option>
-              {% endfor %}
-            </select>
-          </div>
-          <label for="precio_venta" class="col-sm-2 col-form-label my-2">Precio de Venta</label>
-          <div class="col-sm-4">
-            <input type="numeric" step="0.01" class="form-control text-right my-2" id="precio_venta" name="precio_venta"
-            value={% if accion != "Crear" %} "{{ receta.precio_venta }}" {% endif %} {% if accion == "Consultar" %} disabled {% endif %}>
-          </div>
-        </div>
-
-        {% if accion != "Consultar"  %}
-            <div class="form-outline">
-              <label for="descripcion" class="form-label">Preparación</label>
-              <textarea class="form-control" rows="10"  id="descripcion" name="descripcion" {% if accion == "Consultar" %} disabled {% endif %}>                        
-                {% if accion != "Crear" %} 
-                    {{ receta.descripcion }} 
-                {% endif %}                        
-              </textarea>
+        <div class="border border m-3 p-2">
+          <div class="row">
+            <label for="nombre" class="col-sm-2 col-form-label">Título</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="titulo" name="titulo" maxlength=50 required
+              value={% if accion != "Crear" %} "{{ receta.titulo }}" {% endif %}>
             </div>
-        {% else %}
-          {% include "recetario/receta_tab.html" %}
-        {% endif %} 
+          </div>
+          <div class="row mt-2">
+            <label for="categoria_id" class="col-sm-2 col-form-label">Categoría</label>
+            <div class="col-sm-4">
+              <select class="form-select" aria-label="Default select example" id="categoria_id" name="categoria_id" required>
+                {% for categoria in categorias  %}
+                    <option value="{{ categoria.id }}" {% if categoria.id==receta.categoria_id  %}selected{% endif %}>
+                    {{ categoria.nombre }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <label for="precio_venta" class="col-sm-2 col-form-label">Precio de Venta</label>
+            <div class="col-sm-4">
+              <input type="numeric" step="0.01" class="form-control text-right" id="precio_venta" name="precio_venta"
+              value={% if accion != "Crear" %} "{{ receta.precio_venta }}" {% endif %} {% if accion == "Consultar" %} disabled {% endif %}>
+            </div>
+          </div>
+        </div>
+      
+        {% include "recetario/receta_tab.html" %}
 
       </fieldset>
       <footer>
@@ -66,11 +57,6 @@
             <a class="btn btn-primary" href="{{ url_for('recetario.listar_recetas') }}" >Volver a la lista</a>
           </div>    
           {% if accion != "Consultar"  %}
-            {% if accion != "Crear" %} 
-              <div class="p-2">
-                <a class="btn btn-primary" href="{{ url_for('recetario.consultar_ingredientes_receta', id_rec=receta.id) }}" >Ingredientes</a>
-              </div>   
-            {% endif %}  
             <div class="p-2">
               <button type="Submit" class="btn btn-primary">Validar</button>
             </div>

@@ -22,20 +22,22 @@
         <form action="{{ url_for('referencial.Editar_Categoria', id=categoria.id) }}" method="POST"> 
         <fieldset enabled>
     {% endif %}
-            <div class="row my-2">
+          <div class="border m-3 p-2">
+            <div class="row">
                 <label for="nombre" class="col-form-label">Nombre</label>
                 <div class="col">
                     <input type="text" class="form-control" id="nombre" name="nombre" maxlength=50
                     value={% if accion == "Crear" %} "" {% else %} "{{ categoria.nombre }}" {% endif %} required>
                 </div>
             </div>
-            <div class="row my-2">
+            <div class="row">
                 <label for="descripcion" class="col-form-label">Descripción</label>
                 <div class="col">
                     <input type="text" class="form-control" id="descripcion" name="descripcion" maxlength=100
                     value={% if accion == "Crear" %} "" {% else %} "{{ categoria.descripcion }}" {% endif %} >
                 </div>
             </div>
+          </div>
         </fieldset>
 
         <footer>

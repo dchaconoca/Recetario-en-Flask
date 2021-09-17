@@ -14,6 +14,8 @@ from sqlalchemy.orm import relationship, backref
 # Librerías Python
 from datetime import datetime
 
+from sqlalchemy.sql.expression import false, true
+
 # Base de datos
 from app import db
 
@@ -29,13 +31,13 @@ class Ingrediente(db.Model):
   nombre = Column(String(50), nullable=False)
   descripcion = Column(String(100), nullable=True)
   precio = Column(Float, default=0, nullable=True) 
-  medida_id = Column(Integer, ForeignKey('Medida.id'), nullable=False)
+  medida_id = Column(Integer, ForeignKey('Medida.id', ondelete="CASCADE"), nullable=False)
   medida=relationship("Medida")
   created = Column(DateTime)
   updated = Column(DateTime)
 
   # Relación
-  # recetas = relationship("IngredienteReceta", back_populates="Receta")
+  recetas = relationship("IngredienteReceta", backref="Receta")
 
   # Devuelve el nombre
   def __str__(self):
@@ -88,14 +90,14 @@ class Receta(db.Model):
   id = Column(Integer, primary_key=True)
   titulo = Column(String(50), nullable=False)
   descripcion = Column(Text, nullable=True)
-  categoria_id = Column(Integer, ForeignKey('Categoria.id'), nullable=False)
+  categoria_id = Column(Integer, ForeignKey('Categoria.id', ondelete="CASCADE"), nullable=False)
   categoria=relationship("Categoria", backref="Receta")
   precio_venta = Column(Float, default=0, nullable=True) 
   created = Column(DateTime)
   updated = Column(DateTime)
 
   # Relación
-  # ingredientes = relationship("IngredienteReceta", back_populates="Ingrediente")
+  ingredientes_receta = relationship("IngredienteReceta", backref="Ingrediente")
 
   # Devuelve el nombre
   def __str__(self):
@@ -148,6 +150,26 @@ class Receta(db.Model):
         
     return db.session.execute(sql).fetchall()
   
+  # Busca y eleimina un ingrediente de una receta
+  def borrar_ingrediente(self, id_rec, id_ing):
+    print("buscar")
+    receta = self.buscar(id_rec)
+    i = 0
+    borrado = false
+
+    for ingrediente in receta.ingredientes_receta:
+      print("antes if")
+      if ingrediente.ingrediente_id==id_ing:
+        print(receta.ingredientes_receta[i])
+        borrado = receta.ingredientes_receta.pop(i)
+        db.session.commit()
+        print(receta.ingredientes_receta)
+        print(borrado)
+        return borrado
+
+      i=i+1
+
+    return borrado
 
   # Devuelve la lista de todas las recetas
   @staticmethod
@@ -168,22 +190,22 @@ class Receta(db.Model):
 class IngredienteReceta(db.Model):
 
   __tablename__='IngredienteReceta'
-  receta_id = Column(Integer, ForeignKey('Receta.id'), primary_key=True)
-  ingrediente_id = Column(Integer, ForeignKey('Ingrediente.id'), primary_key=True) 
+  receta_id = Column(Integer, ForeignKey('Receta.id', ondelete="CASCADE"), primary_key=True)
+  ingrediente_id = Column(Integer, ForeignKey('Ingrediente.id', ondelete="CASCADE"), primary_key=True) 
   cantidad = Column(Float, default=1, nullable=False) 
-  medida_id = Column(Integer, ForeignKey('Medida.id'), nullable=False)
+  medida_id = Column(Integer, ForeignKey('Medida.id', ondelete="CASCADE"), nullable=False)
   medida=relationship("Medida")
   created = Column(DateTime)
   updated = Column(DateTime)
   
   # Relaciones
-  receta = relationship("Receta", back_populates="recetas")
-  ingrediente = relationship("Ingrediente", back_populates="ingredientes")
+  receta = relationship("Receta",  cascade="all,delete", backref="recetas")
+  ingrediente = relationship("Ingrediente",  cascade="all,delete", backref="ingredientes")
 
   # Hace las diversas validaciones para los ingredientes de una receta
   def validar(self):
     valido = False
-    if self.ingrediente_id != None and self.cantidad != None and self.medida_id != None:
+    if self.ingrediente_id != None and self.cantidad != None and self.medida_id !=  None:
       valido = True
     return valido
 
@@ -191,7 +213,7 @@ class IngredienteReceta(db.Model):
   def guardar(self):
 
     existe = IngredienteReceta.query.filter_by(receta_id=self.receta_id, ingrediente_id=self.ingrediente_id)
-    print(existe)
+
     if not existe:
       self.created=datetime.now()
       self.updated=datetime.now()
@@ -208,7 +230,12 @@ class IngredienteReceta(db.Model):
 
   # Elimina un ingrediente de una receta
   def borrar(self, id_rec, id_ing):
-    borrado = self.query.filter_by(receta_id=id_rec, ingrediente_id=id_ing).delete()
-    db.session.commit()
 
+    una_receta = Receta()
+    receta = una_receta.buscar(id_rec)
+    print("Borrando")
+    borrado = self.query.filter_by(receta_id=id_rec, ingrediente_id=id_ing).all()
+    print(borrado)
+    # db.session.commit()
+    print(borrado)
     return borrado
