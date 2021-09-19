@@ -13,13 +13,13 @@
 {% block content %}
 
   {% if accion == "Consultar" %}
-    <form method="GET"> 
+    <form id="form_receta" method="GET"> 
       <fieldset disabled>
   {% elif accion == "Crear" %}
-    <form action="{{ url_for('recetario.crear_receta') }}" method="POST" novalidate> 
+    <form id="form_receta" action="{{ url_for('recetario.crear_receta') }}" method="POST" novalidate> 
       <fieldset enabled>
   {% else %}
-    <form action="{{ url_for('recetario.editar_receta', id=receta.id) }}" method="POST" novalidate> 
+    <form id="form_receta" action="{{ url_for('recetario.editar_receta', id=receta.id) }}" method="POST" novalidate> 
       <fieldset enabled>
   {% endif %}
         <div class="border border m-3 p-2">
@@ -58,7 +58,10 @@
           </div>    
           {% if accion != "Consultar"  %}
             <div class="p-2">
-              <button type="Submit" class="btn btn-primary">Validar</button>
+              <a class="btn btn-primary" href="{{ url_for('recetario.crear_ingrediente_receta', id_rec=receta.id) }}" >Agregar ingrediente</a>
+            </div> 
+            <div class="p-2">
+              <button type="Submit" form="form_receta" class="btn btn-primary">Validar</button>
             </div>
           {% endif %}        
         </div>

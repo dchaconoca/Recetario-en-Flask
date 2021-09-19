@@ -1,85 +1,63 @@
 {% extends "base.html" %}
 
 {% block title %}
-  Gestión de Ingredientes de la Receta {{ super() }}
+  {{ accion }} Ingrediente de la Receta {{ super() }}
 {% endblock  %}
 
 {% block page_title %}
 
-  <h2 class="text-primary">Gestión de Ingredientes de la Receta</h2>
+  <h2 class="text-primary">{{ accion }} Ingrediente de la Receta</h2>
 
 {% endblock %}
 
 {% block content %} 
 
 {% if accion == "Crear" %}
-  <form action="{{ url_for('recetario.crear_ingrediente_receta', id_rec=receta.id) }}" method="POST" novalidate> 
+  <form action="{{ url_for('recetario.crear_ingrediente_receta', id_rec=id_rec) }}" method="POST" novalidate> 
     <fieldset enabled>
 {% elif accion == "Editar" %}
-  <form action="{{ url_for('recetario.editar_ingrediente_receta', id_rec=receta.id, id_ing=ing_id) }}" method="POST" novalidate> 
+  <form action="{{ url_for('recetario.editar_ingrediente_receta', id_rec=id_rec, id_ing=ing_rec.ingrediente_id) }}" method="POST" novalidate> 
     <fieldset enabled>
 {% endif %}
 
-    <div class="d-flex flex-row justify-content-between">
+    <div class="d-flex flex-row justify-content-between border m-3 p-2">
       <div class="col-sm-4">
         <label for="ingrediente_id" class="col-form-label">Ingredientes</label>
         <select class="form-select" id="ingrediente_id" name="ingrediente_id">
           {% for ingrediente in lista_ingredientes  %}
-            <option value="{{ ingrediente.id }}">{{ ingrediente.nombre }}</option>
+            <option value="{{ ingrediente.id }}" {% if ingrediente.id==ing_rec.ingrediente_id  %}selected{% endif %}>
+              {{ ingrediente.nombre }}</option>
           {% endfor %}
         </select>
       </div>
       <div class="col-sm-2">
         <label for="cantidad" class="col-form-label">Cantidad</label>
         <div>
-            <input type="numeric" step="0.01" class="form-control" id="cantidad" name="cantidad">
+            <input type="numeric" step="0.01" class="form-control" id="cantidad" name="cantidad"
+            value={% if accion != "Crear" %} "{{ ing_rec.cantidad }}" {% endif %}>
         </div>
       </div>
       <div class="col-sm-4">
         <label for="medida_id" class="col-form-label">Medida</label>
         <select class="form-select" id="medida_id" name="medida_id" required>
           {% for medida in medidas  %}
-           <option value="{{ medida.id }}">{{ medida.nombre }}</option>
+          <option value="{{ medida.id }}" {% if medida.id==ing_rec.medida_id  %}selected{% endif %}>
+            {{ medida.nombre }}</option>
           {% endfor %}
         </select>
-      </div> 
-      <div class="p-2 align-self-end">
-        <button type="Submit" class="btn btn-primary">Validar</button>
+      </div>      
+    </div>
+    <footer>
+      <div class="d-flex flex-row justify-content-between"> 
+        <div class="p-2">
+          <a class="btn btn-primary" href="{{ url_for('recetario.editar_receta', id=id_rec) }}" >Volver Receta</a>
+        </div> 
+        <div class="p-2 align-self-end">
+          <button type="Submit" class="btn btn-primary">Validar</button>
+        </div>      
       </div>
-    </div>
-
+    </footer>
   </form>       
-      
-  <div class="table-responsive">
-    <div class="table-wrapper">
-      <table class="table table-striped table-hover table-bordered">
-        <thead>
-          <th>Ingrediente</th>
-          <th>Cantidad</th>
-          <th>Unidad</th>
-          <th>Acciones</th>
-        </thead>
-        <tbody>
-          {% for ingrediente in ingredientes %}
-            <tr>
-              <td>
-                {{ ingrediente.nombre }}
-              </td>
-              <td>
-                {{ ingrediente.cantidad }}
-              </td>
-              <td>
-                {{ ingrediente.nombre_med }}
-              </td>
-              <td>
-                <a href="{{ url_for('recetario.editar_ingrediente_receta', id_rec=ingrediente.rec_id, id_ing=ingrediente.ing_id) }}" class="edit" title="Editar" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                <a href="{{ url_for('recetario.eliminar_ingrediente_receta', id_rec=ingrediente.rec_id, id_ing=ingrediente.ing_id) }}" class="delete" title="Eliminar" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-              </td>
-            </tr>
-          {% endfor %}  
-        </tbody>
-      </table>
-    </div>
-  </div> 
+
 
   {% endblock %}

@@ -129,7 +129,7 @@ def contexto_receta(id):
   ings = None
 
   if una_receta:
-    ings = una_receta.ingredientes_receta
+    ings = una_receta.ingredientes
 
   contexto = {
     'receta': una_receta,
@@ -156,8 +156,6 @@ def consultar_receta(id):
 def crear_receta():
     accion = "Crear"
     receta = Receta()
-
-    categorias = Categoria.listar()
 
     if request.method == 'POST':
         receta.titulo = request.form['titulo']
@@ -210,48 +208,62 @@ def eliminar_receta(id):
 # VISTAS PARA LOS INGREDIENTES DE UNA RECETA
 #########################################################
 
-def contexto_ingredientes_receta(id_rec):
-  receta = Receta()
-  una_receta = receta.buscar(id_rec)
+def contexto_ingrediente_receta(id_rec, id_ing):
+  ing = IngredienteReceta()
+  ing_rec = None
+  if id_ing: 
+    ing_rec = ing.buscar(id_rec, id_ing)
 
   contexto = {
-    'receta': una_receta,
-    'ingredientes': una_receta.buscar_ingredientes(),
+    'id_rec': id_rec,
+    'ing_rec': ing_rec,
     'lista_ingredientes': Ingrediente.listar(),
-    'medidas': Medida.listar()
+    'medidas': Medida.listar(),
   }
   return contexto
-
-@recetario_bp.route('/recetario/consultar_ingredientes_receta/<int:id_rec>')
-def consultar_ingredientes_receta(id_rec):
-  accion = "Crear"
-  return render_template('/recetario/ing_rec_detail.html', accion = accion, **contexto_ingredientes_receta(id_rec))
 
 # Crea un ingrediente para una receta
 @recetario_bp.route('/recetario/crear_ingrediente_receta/<int:id_rec>', methods=["GET", "POST"])
 def crear_ingrediente_receta(id_rec):
-  ingRec = IngredienteReceta()
+  accion = "Crear"
+  ing_rec = IngredienteReceta()
 
   if request.method == 'POST':
-    ingRec.receta_id = id_rec
-    ingRec.ingrediente_id = request.form['ingrediente_id']
-    ingRec.cantidad = request.form['cantidad']
-    ingRec.medida_id = request.form['medida_id']
+    ing_rec.receta_id = id_rec
+    ing_rec.ingrediente_id = request.form['ingrediente_id']
+    ing_rec.cantidad = request.form['cantidad']
+    ing_rec.medida_id = request.form['medida_id']
     
-    if ingRec.validar():                     
-        ingRec.guardar()
-        return redirect(url_for('recetario.consultar_ingredientes_receta', id_rec=id_rec))
+    if ing_rec.validar():                     
+        ing_rec.guardar()
+        return redirect(url_for('recetario.editar_receta', id=id_rec))
+
+  return render_template('/recetario/ing_rec_detail.html', accion=accion, **contexto_ingrediente_receta(id_rec, None))
 
 
-@recetario_bp.route('/recetario/editar_ingrediente_receta/<int:id_rec>/<int:id_ing>')
+@recetario_bp.route('/recetario/editar_ingrediente_receta/<int:id_rec>/<int:id_ing>', methods=["GET", "POST"])
 def editar_ingrediente_receta(id_rec, id_ing):
-  pass
+  accion = "Editar"
+  ing_rec = IngredienteReceta()
+
+  if request.method == 'POST':
+    ing_rec.receta_id = id_rec
+    ing_rec.ingrediente_id = request.form['ingrediente_id']
+    ing_rec.cantidad = request.form['cantidad']
+    ing_rec.medida_id = request.form['medida_id']
+    
+    if ing_rec.validar():                     
+        ing_rec.guardar()
+        return redirect(url_for('recetario.editar_receta', id=id_rec))
+
+  return render_template('/recetario/ing_rec_detail.html', accion=accion, **contexto_ingrediente_receta(id_rec, id_ing))
+
 
 @recetario_bp.route('/recetario/eliminar_ingrediente_receta/<int:id_rec>/<int:id_ing>')
 def eliminar_ingrediente_receta(id_rec, id_ing):
-  receta = Receta()
+  ing_rec = IngredienteReceta()
 
-  if receta.borrar_ingrediente(id_rec, id_ing):
+  if ing_rec.borrar(id_rec, id_ing):
     flash('Ingrediente eliminado satisfactoriamente')
   
   return redirect(url_for('recetario.editar_receta', id=id_rec))
