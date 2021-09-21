@@ -13,27 +13,27 @@
 {% block select %}
 
   <form method="post" action="{{ url_for('recetario.listar_recetas') }}">
-    <div class="d-flex flex-row justify-content-between">
-      <h6 class="p-3">Filtrar recetas</h6>
-      <div class="p-2">
-        <select class="form-select col-sm-2" aria-label="Default select example" id="categoria_id" name="categoria_id">
-          <option value="-1" selected>-- Todas Categorías --</option>
+    <div class="d-flex flex-row justify-content-between border m-3 p-2">
+      <h6 class="col-sm-2 p-2">Filtrar recetas</h6>
+      <div class="col-sm-4 mx-2">
+        <select class="form-select" aria-label="Default select example" id="categoria_id" name="categoria_id">
+          <option value="None" selected>-- Todas Categorías --</option>
           {% for categoria in categorias  %} 
             <option value="{{ categoria.id }}" {% if  categoria.id==id_cat  %}selected{% endif %}>
             {{ categoria.nombre }}</option>
           {% endfor %}
         </select>
       </div>
-      <div class="p-2">
+      <div class="col-sm-4 mx-2">
         <select class="form-select" id="ingrediente_id" name="ingrediente_id">
-          <option value="-1" selected>-- Todos Ingredientes --</option>
+          <option value="None" selected>-- Todos Ingredientes --</option>
           {% for ingrediente in ingredientes  %}
               <option value="{{ ingrediente.id }}" {% if ingrediente.id==id_ing  %}selected{% endif %}>
               {{ ingrediente.nombre }}</option>
           {% endfor %}
         </select>
       </div>
-      <div class="p-2">
+      <div class="col-sm-2 mx-2">
         <button type="submit" class="btn btn-primary">Buscar</button>
       </div>      
     </div>   
@@ -58,7 +58,7 @@
       </td>
       <td>
         <a href="{{ url_for('recetario.consultar_receta', id=receta.id) }}" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-        <a href="{{ url_for('recetario.editar_receta', id=receta.id) }}" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+        <a href="{{ url_for('recetario.tratar_receta', id=receta.id) }}" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
         <a href="{{ url_for('recetario.eliminar_receta', id=receta.id) }}" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
       </td>
     </tr>
@@ -67,7 +67,7 @@
 
 {% block others %}
   <div class="col-sm-4">
-    <a class="btn btn-primary" href="{{ url_for('recetario.crear_receta') }}" >Nuevo</a>
+    <a class="btn btn-primary" href="{{ url_for('recetario.tratar_receta') }}" >Nuevo</a>
   </div>
 {% endblock  %}
 

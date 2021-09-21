@@ -13,10 +13,10 @@
 {% block content %} 
 
 {% if accion == "Crear" %}
-  <form action="{{ url_for('recetario.crear_ingrediente_receta', id_rec=id_rec) }}" method="POST" novalidate> 
+  <form action="{{ url_for('recetario.tratar_ingrediente_receta', id_rec=id_rec) }}" method="POST" novalidate> 
     <fieldset enabled>
 {% elif accion == "Editar" %}
-  <form action="{{ url_for('recetario.editar_ingrediente_receta', id_rec=id_rec, id_ing=ing_rec.ingrediente_id) }}" method="POST" novalidate> 
+  <form action="{{ url_for('recetario.tratar_ingrediente_receta', id_rec=id_rec, id_ing=ing_rec.ingrediente_id) }}" method="POST" novalidate> 
     <fieldset enabled>
 {% endif %}
 
@@ -33,8 +33,8 @@
       <div class="col-sm-2">
         <label for="cantidad" class="col-form-label">Cantidad</label>
         <div>
-            <input type="numeric" step="0.01" class="form-control" id="cantidad" name="cantidad"
-            value={% if accion != "Crear" %} "{{ ing_rec.cantidad }}" {% endif %}>
+            <input type="numeric" step="0.01" class="form-control text-right" id="cantidad" name="cantidad"
+            value={% if accion != "Crear" %} "{{ ing_rec.cantidad }}" {% else %} "0" {% endif %}>
         </div>
       </div>
       <div class="col-sm-4">
@@ -50,7 +50,7 @@
     <footer>
       <div class="d-flex flex-row justify-content-between"> 
         <div class="p-2">
-          <a class="btn btn-primary" href="{{ url_for('recetario.editar_receta', id=id_rec) }}" >Volver Receta</a>
+          <a class="btn btn-primary" href="{{ url_for('recetario.tratar_receta', id=id_rec) }}" >Volver Receta</a>
         </div> 
         <div class="p-2 align-self-end">
           <button type="Submit" class="btn btn-primary">Validar</button>

@@ -24,26 +24,28 @@
     {% endif %}
         <div class="border m-3 p-2">
             <div class="row">
-                <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="nombre" name="nombre" maxlength=50
-                    value={% if accion == "Crear" %} "" {% else %} "{{ ingrediente.nombre }}" {% endif %} required>
+                <div class="col-sm-5">   
+                    <label for="nombre" class="col-form-label">Nombre</label>
+                    <div>
+                        <input type="text" class="form-control" id="nombre" name="nombre" required maxlength=50 
+                        value={% if accion == "Crear" %} "" {% else %} "{{ ingrediente.nombre }}" {% endif %} >
+                    </div>
+                </div>
+                <div class="col-sm-7">   
+                    <label for="descripcion" class="col-form-label">Descripción</label>
+                    <div>
+                        <input type="text" class="form-control" id="descripcion" name="descripcion" maxlength=100
+                        value={% if accion == "Crear" %} "" {% else %} "{{ ingrediente.descripcion }}" {% endif %} >
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <label for="descripcion" class="col-sm-2 col-form-label">Descripción</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="descripcion" name="descripcion" maxlength=100
-                    value={% if accion == "Crear" %} "" {% else %} "{{ ingrediente.descripcion }}" {% endif %} >
-                </div>
-            </div>
-
             <div class="row">
                 <div class="col-sm-6">
                     <label for="precio" class="col-form-label">Precio</label>
-                    <div>
-                        <input type="numeric" step="0.01" class="form-control" id="precio" name="precio" 
-                        value={% if accion == "Crear" %} "" {% else %} "{{ ingrediente.precio }}" {% endif %} >
+                    <div class="input-group">
+                        <input class="form-control" type="number" name="precio" id="precio" step="0.01" required
+                        value={% if accion == "Crear" %} "0" {% else %} "{{ ingrediente.precio }}" {% endif %} >
+                        <span class="input-group-text">$</span>
                     </div>
                 </div>
                 <div class="col-sm-6">

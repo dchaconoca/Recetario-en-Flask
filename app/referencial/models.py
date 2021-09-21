@@ -29,7 +29,7 @@ class Categoria(db.Model):
     # Hace las diversas validaciones de la categoria
     def validar(self):
         valido = False
-        if self.nombre != None and len(self.nombre) <= 50 and len(self.descripcion) <= 100:
+        if self.nombre and len(self.nombre) <= 50 and len(self.descripcion) <= 100:
             valido = true
         return valido
 
@@ -75,7 +75,7 @@ class Medida(db.Model):
     # Hace las diversas validaciones de la unidad de medida
     def validar(self):
         valido = False
-        if self.nombre != None and len(self.nombre) <= 50 and self.proporcion != None:
+        if self.nombre and len(self.nombre) <= 50 and self.proporcion:
             valido = True
         return valido
 

@@ -16,57 +16,77 @@
     <form id="form_receta" method="GET"> 
       <fieldset disabled>
   {% elif accion == "Crear" %}
-    <form id="form_receta" action="{{ url_for('recetario.crear_receta') }}" method="POST" novalidate> 
+    <form id="form_receta" action="{{ url_for('recetario.tratar_receta') }}" method="POST" novalidate> 
       <fieldset enabled>
   {% else %}
-    <form id="form_receta" action="{{ url_for('recetario.editar_receta', id=receta.id) }}" method="POST" novalidate> 
+    <form id="form_receta" action="{{ url_for('recetario.tratar_receta', id=receta.id) }}" method="POST" novalidate> 
       <fieldset enabled>
   {% endif %}
+      
         <div class="border border m-3 p-2">
           <div class="row">
-            <label for="nombre" class="col-sm-2 col-form-label">Título</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="titulo" name="titulo" maxlength=50 required
-              value={% if accion != "Crear" %} "{{ receta.titulo }}" {% endif %}>
+            <div class="col-sm-8">
+              <label class="col-form-label" for="titulo">Título</label>
+              <input class="form-control" type="text" name="titulo" id="titulo" value="{{ receta.titulo }}" required>
             </div>
-          </div>
-          <div class="row mt-2">
-            <label for="categoria_id" class="col-sm-2 col-form-label">Categoría</label>
             <div class="col-sm-4">
-              <select class="form-select" aria-label="Default select example" id="categoria_id" name="categoria_id" required>
+              <label class="col-form-label" for="titulo">Categoría</label>
+              <select class="form-select" id="categoria_id" name="categoria_id" required>
                 {% for categoria in categorias  %}
                     <option value="{{ categoria.id }}" {% if categoria.id==receta.categoria_id  %}selected{% endif %}>
                     {{ categoria.nombre }}</option>
                 {% endfor %}
               </select>
             </div>
-            <label for="precio_venta" class="col-sm-2 col-form-label">Precio de Venta</label>
+          </div>
+          <div class="row">
             <div class="col-sm-4">
-              <input type="numeric" step="0.01" class="form-control text-right" id="precio_venta" name="precio_venta"
-              value={% if accion != "Crear" %} "{{ receta.precio_venta }}" {% endif %} {% if accion == "Consultar" %} disabled {% endif %}>
+              <label for="costo" class="col-form-label">Costo</label>
+              <div class="input-group">
+                <input class="form-control" type="number" name="costo" id="costo" step="0.01" 
+                value={% if accion != "Crear" %} "{{ receta.costo }}" {% else %} "0" {% endif %} readonly>
+                <span class="input-group-text">$</span>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <label for="ganancia" class="col-form-label">Ganancia</label>
+              <div class="input-group">
+                <input class="form-control" type ="number" name="ganancia" id="ganancia" step="0.01" min="0" max="100" 
+                value={% if accion != "Crear" %} "{{ receta.ganancia }}" {% else %} "0" {% endif %}>
+                <span class="input-group-text">%</span>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <label for="precio" class="col-form-label">Precio</label>
+              <div class="input-group">
+                <input class="form-control" type="number" name="precio" id="precio" step="0.01" value="{{ precio }}" readonly>
+                <span class="input-group-text">$</span>
+              </div>
             </div>
           </div>
         </div>
-      
+
         {% include "recetario/receta_tab.html" %}
 
-      </fieldset>
-      <footer>
-        <div class="d-flex flex-row justify-content-between">
-          <div class="p-2">
-            <a class="btn btn-primary" href="{{ url_for('recetario.listar_recetas') }}" >Volver a la lista</a>
-          </div>    
-          {% if accion != "Consultar"  %}
+        <footer>
+          <div class="d-flex flex-row justify-content-between">
             <div class="p-2">
-              <a class="btn btn-primary" href="{{ url_for('recetario.crear_ingrediente_receta', id_rec=receta.id) }}" >Agregar ingrediente</a>
-            </div> 
-            <div class="p-2">
-              <button type="Submit" form="form_receta" class="btn btn-primary">Validar</button>
+              <a class="btn btn-primary" href="{{ url_for('recetario.listar_recetas') }}" >Volver a la lista</a>
             </div>
-          {% endif %}        
-        </div>
-      </footer>
-
+            {% if accion != "Consultar"  %}
+              {% if accion == "Editar"  %}
+                <div class="p-2">
+                  <a class="btn btn-primary" href="{{ url_for('recetario.tratar_ingrediente_receta', id_rec=receta.id) }}" >Agregar ingrediente</a>
+                </div> 
+              {% endif %} 
+              <div class="p-2">
+                <button type="Submit" form="form_receta" class="btn btn-primary">Validar</button>
+              </div>
+            {% endif %}     
+          </div> 
+        </footer>
+        
+      </fieldset>
     </form>
        
 {% endblock %}

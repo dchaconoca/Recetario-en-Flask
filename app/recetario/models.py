@@ -46,7 +46,7 @@ class Ingrediente(db.Model):
   # Hace las diversas validaciones del ingrediente
   def validar(self):
       valido = False
-      if not self.nombre is None and not self.medida_id is None:
+      if self.nombre and self.medida_id:
           valido = True
       return valido
 
@@ -92,7 +92,8 @@ class Receta(db.Model):
   descripcion = Column(Text, nullable=True)
   categoria_id = Column(Integer, ForeignKey('Categoria.id', ondelete="CASCADE"), nullable=False)
   categoria=relationship("Categoria", backref="Receta")
-  precio_venta = Column(Float, default=0, nullable=True) 
+  costo = Column(Float, default=0.0, nullable=False) 
+  ganancia = Column(Float, default=0.0, nullable=False) 
   created = Column(DateTime)
   updated = Column(DateTime)
 
@@ -106,7 +107,7 @@ class Receta(db.Model):
   # Hace las diversas validaciones de la receta
   def validar(self):
     valido = False
-    if self.titulo != None and self.categoria_id != None:
+    if self.titulo and self.categoria_id:
       valido = True
     return valido
 
@@ -119,7 +120,8 @@ class Receta(db.Model):
     else:
       receta =  {'titulo': self.titulo, 
                 'descripcion': self.descripcion,
-                'precio_venta': self.precio_venta,
+                'costo': self.costo,
+                'ganancia': self.ganancia,
                 'categoria_id': self.categoria_id,
                 'updated': datetime.now()
                 }
@@ -171,7 +173,7 @@ class IngredienteReceta(db.Model):
   # Hace las diversas validaciones para los ingredientes de una receta
   def validar(self):
     valido = False
-    if self.ingrediente_id != None and self.cantidad != None and self.medida_id !=  None:
+    if self.ingrediente_id and self.cantidad and self.medida_id:
       valido = True
     return valido
 
