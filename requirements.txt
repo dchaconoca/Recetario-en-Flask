@@ -1,5 +1,4 @@
 alembic==1.7.1
-apturl
 asgiref==3.4.1
 bcrypt==3.1.7
 beautifulsoup4==4.9.3
