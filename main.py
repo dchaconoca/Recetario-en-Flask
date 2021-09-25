@@ -3,6 +3,14 @@
 #########################################################
 
 from app import create_app
+from decouple import config as config_decouple
 
-app = create_app()
-app.run(debug=True)
+enviroment = config['development']
+
+if config_decouple('PRODUCTION', default=False):
+    enviroment = config['production']
+
+app = create_app(enviroment)
+
+if enviroment != "PRODUCTION":
+    app.run(debug=True)
