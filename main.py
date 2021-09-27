@@ -3,16 +3,14 @@
 #########################################################
 
 from app import create_app
-from decouple import config as config_decouple
+import os
 
-enviroment = config['development']
+settings_module = os.getenv('APP_SETTINGS_MODULE')
 
-if config_decouple('PRODUCTION', default=False):
-    enviroment = config['production']
+# print("settings_module", settings_module)
 
-app = create_app(enviroment)
-
-app.run
+app = create_app(settings_module)
+app.run()
 
 
 

@@ -7,31 +7,29 @@
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-# from sqlalchemy import create_engine
-# from sqlalchemy.ext.declarative import declarative_base
 from flask_migrate import Migrate
 
-from decouple import config as config_decouple
 
 db = SQLAlchemy()
 migrate = Migrate()
 
-def create_app(enviroment):
-
+def create_app(settings_module='config.DevelopmentConfig'):
     app = Flask(__name__)
 
-    app.config['SECRET_KEY'] = '84309ejf02934jrm34urp34urn34ur'
+    # print("settings_module", settings_module)
 
-    app.config.from_object(enviroment)
+    app.config.from_object(settings_module)
+
+    # print("config", app.config)
+    
 
     # Se agregó "pymysql" para que funcionara, pues por defecto utiliza mysqlclient
     # que me da un error al instalarlo, aparentemente no funciona en 32 bits
     # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://diana:Color74@localhost/ProyectoFlask?charset=utf8mb4'
     # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-    with app.app_context():
-        db.init_app(app)
-        migrate.init_app(app, db)
+    db.init_app(app)
+    migrate.init_app(app, db)
 
     # Registro de Blueprints
     from .public import public_bp
