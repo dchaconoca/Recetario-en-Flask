@@ -12,5 +12,7 @@ if config_decouple('PRODUCTION', default=False):
 
 app = create_app(enviroment)
 
-if enviroment != "PRODUCTION":
-    app.run(debug=True)
+app.run
+
+
+
