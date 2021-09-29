@@ -20,7 +20,7 @@ def create_app(settings_module='config.DevelopmentConfig'):
 
     app.config.from_object(settings_module)
 
-    # print("config", app.config)
+    print("config", app.config)
     
 
     # Se agregó "pymysql" para que funcionara, pues por defecto utiliza mysqlclient
