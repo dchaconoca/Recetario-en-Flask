@@ -67,7 +67,6 @@ PyRect==0.1.4
 pyRFC3339==1.1
 PyScreeze==0.1.27
 python-dateutil==2.7.3
-python-debian===0.1.36ubuntu1
 python-decouple==3.4
 python3-xlib==0.15
 PyTweening==1.0.3
