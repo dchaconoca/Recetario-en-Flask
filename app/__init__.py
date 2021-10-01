@@ -11,7 +11,7 @@ from flask_migrate import Migrate
 
 
 db = SQLAlchemy()
-migrate = Migrate()
+migrate = Migrate(db)
 
 def create_app(settings_module='config.DevelopmentConfig'):
     app = Flask(__name__)
