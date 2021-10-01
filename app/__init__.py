@@ -42,6 +42,3 @@ def create_app(settings_module='config.DevelopmentConfig'):
     app.register_blueprint(recetario_bp)
 
     return app
-
-
-

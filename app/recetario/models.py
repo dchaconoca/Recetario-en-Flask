@@ -17,7 +17,7 @@ from datetime import datetime
 from sqlalchemy.sql.expression import false, true
 
 # Base de datos
-
+from app import db
 
 # Tablas del referencial
 # from app.referencial.models import Categoria, Medida
