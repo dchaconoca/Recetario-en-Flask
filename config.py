@@ -7,7 +7,8 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 class DevelopmentConfig(Config):
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://diana:Color74@localhost/ProyectoFlask?charset=utf8mb4'
+    # SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://diana:Color74@localhost/ProyectoFlask?charset=utf8mb4'
+    SQLALCHEMY_DATABASE_URI = 'postgresql://diana:Color74@localhost:5432/RecetarioFlask'
     DEBUG = True
 
 class ProductionConfig(Config):

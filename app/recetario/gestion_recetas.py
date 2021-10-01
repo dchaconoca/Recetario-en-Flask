@@ -18,10 +18,10 @@ from app import db
 # ingrediente
 def lista_dinamica_recetas(id_cat=None, id_ing=None):
   sql = "SELECT R.id, R.titulo "\
-        "FROM Receta R "
+        'FROM "Receta" R '
 
   if id_ing:
-    sql = sql + "INNER JOIN IngredienteReceta IR "\
+    sql = sql + 'INNER JOIN "IngredienteReceta" IR '\
                 "ON R.id = IR.receta_id "\
                 "WHERE IR.ingrediente_id = " + str(id_ing)
     if id_cat:
@@ -40,7 +40,7 @@ def lista_dinamica_recetas(id_cat=None, id_ing=None):
 # Llama un stored procedure de la base de datos que devuelve el costo 
 # de una receta dada
 def calculo_costo_receta(id):
-  sql = "call sp_costo_receta(" + str(id) + ")"
+  sql = "select fn_costo_receta(" + str(id) + ")"
   costo = (db.session.execute(sql).first()[0] if db.session.execute(sql).first() else 0)
   return costo
 

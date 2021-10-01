@@ -112,8 +112,10 @@ def contexto_receta(id):
 
   if una_receta:
     ings = una_receta.ingredientes
-    una_receta.costo = calculo_costo_receta(id)
-    precio = calculo_precio_receta(una_receta.costo, una_receta.ganancia)
+    
+    if ings:
+      una_receta.costo = calculo_costo_receta(id)
+      precio = calculo_precio_receta(una_receta.costo, una_receta.ganancia)
 
   contexto = {
     'receta': una_receta,
