@@ -41,7 +41,9 @@ def lista_dinamica_recetas(id_cat=None, id_ing=None):
 # de una receta dada
 def calculo_costo_receta(id):
   sql = "select fn_costo_receta(" + str(id) + ")"
+  
   costo = (db.session.execute(sql).first()[0] if db.session.execute(sql).first() else 0)
+  
   return costo
 
 
