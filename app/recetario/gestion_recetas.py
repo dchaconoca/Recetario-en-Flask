@@ -44,7 +44,7 @@ def calculo_costo_receta(id):
   
   costo = (db.session.execute(sql).first()[0] if db.session.execute(sql).first() else 0)
   
-  return costo
+  return round(costo, 2)
 
 
 # Calcula el precio en función del costo y la ganacia
@@ -52,4 +52,4 @@ def calculo_precio_receta(costo, ganancia):
   precio = 0
   if costo:
     precio = (float(costo) * (1.0 + float(ganancia / 100))) 
-  return precio
+  return round(precio, 2)
