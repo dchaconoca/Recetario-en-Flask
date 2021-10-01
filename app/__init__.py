@@ -11,10 +11,12 @@ from flask_migrate import Migrate
 
 
 db = SQLAlchemy()
-migrate = Migrate(db)
+# migrate = Migrate(db)
 
 def create_app(settings_module='config.DevelopmentConfig'):
     app = Flask(__name__)
+
+    migrate = Migrate(app, db)
 
     # print("settings_module", settings_module)
 
