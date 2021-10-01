@@ -42,9 +42,14 @@ def lista_dinamica_recetas(id_cat=None, id_ing=None):
 def calculo_costo_receta(id):
   sql = "select fn_costo_receta(" + str(id) + ")"
   
-  costo = (db.session.execute(sql).first()[0] if db.session.execute(sql).first() else 0)
+  costo = db.session.execute(sql).first()[0]
   
-  return round(costo, 2)
+  if costo:
+    costo = round(costo, 2)
+  else:
+    costo = 0
+
+  return costo
 
 
 # Calcula el precio en función del costo y la ganacia
