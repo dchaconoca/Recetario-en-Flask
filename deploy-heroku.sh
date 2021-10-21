@@ -1,3 +1,3 @@
 git add *
-git commit -m "Seguimos con Heroku"
+git commit -m "Funcionamiento de la aplicacion"
 git push heroku main:main

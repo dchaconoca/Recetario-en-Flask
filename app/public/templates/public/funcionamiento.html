@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Home {{ super() }}
+{% endblock  %}
+
+{% block page_title %}
+
+  <h2 class="text-primary">Funcionamiento de la aplicación</h2>
+
+{% endblock %}
+
+{% block content %}
+    <p>
+      El objetivo de la aplicación es calcular el precio de un plato en función de los ingredientes que la componen.
+    </p>
+
+    <p>
+      Muchos factores intervienen en el cálculo del precio de un producto: La materia prima que lo compone, costos fijos, impuestos, ganancias...
+    </p>
+
+    <p>
+      En esta aplicación, en su primera versión, simplemente utilizaremos la cantidad de ingredientes y un porcentaje de ganancia.
+    </p>
+
+    <h3>Descripción funcional</h3>
+    <ol>
+      <li>Una <strong>Receta</strong> pertenece a una <strong>Categoría</strong>: Plato principal, entrada, postre...</li>
+      <li>Un <strong>Ingrediente</strong> tiene un precio para una determinada cantidad (Unidad de Medida): Precio por Kg, precio por unidad...</li>
+      <li>Una <strong>Unidad de Medida</strong> es una cantidad estandarizada de una determinada magnitud y se utiliza para expresar la cantidad de un ingrediente</li>
+      <li>Una Unidad de Medida es una porción de otra unidad de medida. Por ejemplo, 1000 gramos forman 1 Kg, si el Kg es la unidad de medida de referencia, 1000 es la proporción del gramo</li>
+      <li>Una Receta está formada por Ingredientes en una cantidad específica</li>
+      <li>El <strong>costo de una Receta</strong>, es la suma de los costos de todos sus ingredientes</li>
+      <li>El <strong>precio de una Receta</strong> es su costo más un porcentaje de ganancia</li>
+    </ol>
+
+    <h5>Cálculo del precio de un ingrediente dentro de una receta:</h5>
+
+    <pre>
+      <strong>CIR = Cantidad * Precio / Proporción</strong>
+
+      Donde:
+
+      <strong>CIR:</strong> Costo Ingrediente Receta
+      <strong>Cantidad:</strong> Cantidad de ingrediente dentro de la receta
+      <strong>Precio:</strong> Precio del ingrediente
+      <strong>Proporción:</strong> Proporción de la unidad de medida del ingrediente dentro de la receta
+    </pre>
+    <p><strong>Ejemplo:</strong></p>    
+    <p>Costo de 2 tazas de harina de trigo:</p>
+    <pre>
+      <strong>2 * 3.200 / 6,67 = 929,52</strong>
+      
+      <strong>Taza:</strong> Una taza son 150g, 1Kg tiene 6,67 tazas
+      <strong>Cantidad:</strong> Cantidad de tazas dentro de la receta: <em>2</em> 
+      <strong>Precio:</strong> Precio de 1Kg de harina: <em>3.200</em> 
+      <strong>Proporción:</strong> Cantidad de tazas dentro de 1Kg: <em>6,67</em> 
+    </pre>
+
+    <h3>Arquitectura de la aplicación</h3>
+
+    <p>
+      Tecnologías utilizadas: <strong>Flask, MySQL / PostgreSQL, SQLAlchemy, Jinja, Bootstrap</strong>
+    </p>
+    <p>
+      Utiliza la Arquitectura <strong>MVC</strong> y está dividida en 3 módulos (blueprints):
+    </p>
+    <ol>
+      <li><strong>Módulo Recetario:</strong> Para administrar Recetas e Ingredientes (CRUD). Contiene la mayoría de las reglas de negocio</li>
+      <li><strong>Modulo Referencial:</strong> Para administrar Categorías y Unidades de Medida. Este módulo puede utilizarse para otras aplicaciones similares</li>
+      <li><strong>Módulo Public:</strong> Información pública y general de la aplicación. Más adelante, los otros 2 módulos deberían ser accedidos únicamente por usuarios autorizados</li>
+    </ol>
+
+    <h5>Base de Datos</h5>
+
+    <p>Se utiliza el ORM <strong>SQLAlchemy</strong> para las operaciones sobre la base de datos. Este es el esquema de la misma:</p>
+
+    <div class="d-flex justify-content-center">
+      <img src="{{ url_for('static', filename='/img/modelo-er.png') }}" alt="Modelo Entidad-Relación de la aplicación">
+    </div>
+
+    <p>
+      Se utiliza <strong>MySQL</strong> en desarrollo y <strong>PostgreSQL</strong> en producción (Heroku).
+    </p>
+    <p>
+      Se utiliza una vista y una función dentro de la base de datos para facilitar el cálculo de los precios.
+    </p>
+       
+{% endblock %}
+
+    
+      
+   

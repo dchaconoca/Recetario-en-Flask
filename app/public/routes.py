@@ -11,6 +11,10 @@ from . import public_bp
 def home():
     return render_template('/public/home.html')
 
+@public_bp.route('/funcionamiento')
+def funcionamiento():
+    return render_template('/public/funcionamiento.html')
+
 @public_bp.route('/quien')
 def quien():
     return render_template('/public/quien.html')
